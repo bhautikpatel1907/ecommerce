@@ -6,6 +6,9 @@
 
 A simple e-commerce platform built with **ASP.NET Core 9.0**, SQL Server, and Bootstrap 5. Developed by **Bhautik Patel**.
 
+## Site Url:
+https://bk-nop48-b0cugzdadmhshadt.canadacentral-01.azurewebsites.net/
+
 ## ✨ Features
 
 - 🛒 Shopping cart with real-time updates
