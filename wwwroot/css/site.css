@@ -109,3 +109,22 @@ body {
 .alert-dismissible .btn-close {
     padding: 1rem;
 }
+
+.auth-card {
+    max-width: 500px;
+    margin: 2rem auto;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.auth-card .card-header {
+    padding: 1.5rem;
+}
+
+.auth-card .card-body {
+    padding: 2rem;
+}
+
+.auth-card .form-control {
+    padding: 0.75rem 1rem;
+}

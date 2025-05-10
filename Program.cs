@@ -1,6 +1,10 @@
 using Ecom.Components;
 using Ecom.Infrastructure;
+using Ecom.Infrastructure.Data;
+using Ecom.Services;
+using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +14,11 @@ builder.Services.AddControllersWithViews();
 // Add DbContext
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddScoped<AppMigration>();
+
+//register services
+builder.Services.AddScoped<AuthService>();
 
 //Add components
 builder.Services.AddScoped<CartSummaryViewComponent>();
@@ -31,6 +40,13 @@ app.UseRouting();
 app.UseAuthorization();
 
 app.MapStaticAssets();
+
+// Apply custom migrations on startup
+using (var scope = app.Services.CreateScope())
+{
+    var appMigration = scope.ServiceProvider.GetRequiredService<AppMigration>();
+    appMigration.ApplyCustomMigrations().GetAwaiter().GetResult();  // Call the custom migration logic to apply changes
+}
 
 // Seed the database
 DatabaseSeeder.Seed(app);

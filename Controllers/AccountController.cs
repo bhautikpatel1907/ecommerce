@@ -1,5 +1,5 @@
 ﻿using Ecom.Infrastructure;
-using Ecom.Models;
+using Ecom.Models.Customer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -45,7 +45,7 @@ namespace Ecom.Controllers
                 return NotFound();
             }
 
-            var model = new EditAccountModel
+            var model = new AccountInfoModel
             {
                 CustomerId = customer.CustomerId,
                 FirstName = customer.FirstName,
@@ -59,7 +59,7 @@ namespace Ecom.Controllers
         // POST: Account/Edit
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(EditAccountModel model)
+        public async Task<IActionResult> Edit(AccountInfoModel model)
         {
             if (ModelState.IsValid)
             {

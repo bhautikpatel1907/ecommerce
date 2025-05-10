@@ -17,7 +17,11 @@ namespace Ecom.Domain
 
         [Required]
         [EmailAddress]
+        [MaxLength(100)]
         public string Email { get; set; }
+
+        public byte[] PasswordHash { get; set; }
+        public byte[] PasswordSalt { get; set; }
 
         [Display(Name = "Account Created")]
         public DateTime CreatedDate { get; set; } = DateTime.Now;

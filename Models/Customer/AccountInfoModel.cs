@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Ecom.Models
+namespace Ecom.Models.Customer
 {
-    public class EditAccountModel
+    public class AccountInfoModel
     {
         public int CustomerId { get; set; }
 
