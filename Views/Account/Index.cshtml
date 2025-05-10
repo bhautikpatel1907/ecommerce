@@ -1,0 +1,83 @@
+﻿@model Ecom.Domain.Customer
+@{
+    ViewData["Title"] = "My Account";
+}
+
+<div class="container py-5">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4">
+                <div class="card-header bg-primary text-white">
+                    <h4>Account Information</h4>
+                </div>
+                <div class="card-body">
+                    <p><strong>Name:</strong> @Model.FirstName @Model.LastName</p>
+                    <p><strong>Email:</strong> @Model.Email</p>
+                    <p><strong>Member Since:</strong> @Model.CreatedDate.ToString("MMMM dd, yyyy")</p>
+                    <a asp-action="Edit" class="btn btn-outline-primary">Edit Information</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4>My Orders</h4>
+                </div>
+                <div class="card-body">
+                    @if (Model.Orders.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Order #</th>
+                                        <th>Date</th>
+                                        <th>Total</th>
+                                        <th>Items</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var order in Model.Orders.OrderByDescending(o => o.OrderDate))
+                                    {
+                                        <tr>
+                                            <td>@order.OrderId</td>
+                                            <td>@order.OrderDate.ToString("MMM dd, yyyy")</td>
+                                            <td>$@order.TotalAmount.ToString("0.00")</td>
+                                            <td>@order.OrderItems.Sum(oi => oi.Quantity)</td>
+                                            <td>
+                                                <a asp-action="OrderDetails" asp-route-id="@order.OrderId"
+                                                   class="btn btn-sm btn-outline-primary">Details</a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <p>You haven't placed any orders yet.</p>
+                        <a asp-controller="Catalog" asp-action="Index" class="btn btn-primary">Start Shopping</a>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@if (TempData["SuccessMessage"] != null)
+{
+    <div class="toast-container position-fixed bottom-0 end-0 p-3">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header bg-success text-white">
+                <strong class="me-auto">Success</strong>
+                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+            <div class="toast-body">
+                @TempData["SuccessMessage"]
+            </div>
+        </div>
+    </div>
+}

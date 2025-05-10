@@ -1,0 +1,71 @@
+﻿@model List<Ecom.Domain.Product>
+@{
+    ViewData["Title"] = "Product Catalog";
+}
+
+<div class="container py-5">
+    <h1 class="text-center mb-5">Our Product Catalog</h1>
+    
+    <div class="row">
+        @{
+            // Array of realistic tech product image URLs from Unsplash
+            var productImages = new string[]
+            {
+                "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Laptop
+                "https://images.unsplash.com/photo-1512499617640-c74ae3a79d37?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Phone
+                "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Headphones
+                "https://images.unsplash.com/photo-1523275335684-37898b6baf30?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Smart Watch
+                "https://images.unsplash.com/photo-1546054454-aa26e2b734c7?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Tablet
+                "https://images.unsplash.com/photo-1572569511254-d8f925fe2cbb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Earbuds
+                "https://images.unsplash.com/photo-1581349485608-9469926a8e5e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // SSD
+                "https://images.unsplash.com/photo-1558379850-823f103f866a?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Speaker
+                "https://images.unsplash.com/photo-1547036967-23d11aacaee0?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop", // Monitor
+                "https://images.unsplash.com/photo-1587829741301-dc798b83add3?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&h=300&fit=crop"  // Keyboard
+            };
+        }
+        
+        @for (int i = 0; i < Model.Count; i++)
+        {
+            var product = Model[i];
+            var imageUrl = i < productImages.Length ? productImages[i] : productImages[0];
+            
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100 shadow-sm">
+                    <img src="@imageUrl" class="card-img-top" alt="@product.Name">
+                    <div class="card-body">
+                        <h5 class="card-title">@product.Name</h5>
+                        <p class="card-text">@product.Description</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <span class="h5 text-primary">$@product.Price.ToString("0.00")</span>
+                            <form asp-controller="Catalog" asp-action="AddToCart" method="post">
+                                <input type="hidden" name="productId" value="@product.ProductId" />
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent">
+                        <small class="text-muted">@product.StockQuantity in stock</small>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .card-img-top {
+        height: 200px;
+        object-fit: cover;
+    }
+</style>
